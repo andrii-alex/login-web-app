@@ -9,36 +9,40 @@ class Login extends BaseController
     }
 
     public function login(){
-        $username = $this->request->getPost('username');
-        $password = $this->request->getPost('password');
+        // $username = $this->request->getPost('username');
 
-        $userModel = model("UserModel");
+        var_dump($_POST);
+        // $username = $_POST['username'] ?? "fff";
+        // $password = $this->request->getPost('password');
 
-        $user = $userModel->where("username", $username)->first();
+        // $userModel = model("UserModel");
 
-        if(is_null($user))
-            return $this->response->setStatusCode(401)->setJson([
-                'error' => 'No account with this username!'
-            ]);
+        // $user = $userModel->where("username", $username)->first();
 
-        if (password_verify($password, $user->password)) {
-            $token = bin2hex(random_bytes(32));
+        // if(is_null($user))
+        //     return $this->response->setStatusCode(401)->setJson([
+        //         'username'  => $username,
+        //         'error'     => 'No account with this username!'
+        //     ]);
 
-            $this->session->set('username', $username);
-            $this->session->set('token', $token);
+        // if (password_verify($password, $user->password)) {
+        //     $token = bin2hex(random_bytes(32));
 
-            $user->token = $token;
-            $userModel->save($user);
+        //     $this->session->set('username', $username);
+        //     $this->session->set('token', $token);
+
+        //     $user->token = $token;
+        //     $userModel->save($user);
     
-            return $this->response->setStatusCode(200)->setJson([
-                'username'  => $session->get('username'),
-                'token'     => $session->get('token', $token)
-            ]);
-        } else {
-            return $this->response->setStatusCode(401)->setJson([
-                'error' => 'Incorrect password!',
-            ]);
-        }
+        //     return $this->response->setStatusCode(200)->setJson([
+        //         'username'  => $session->get('username'),
+        //         'token'     => $session->get('token', $token)
+        //     ]);
+        // } else {
+        //     return $this->response->setStatusCode(401)->setJson([
+        //         'error' => 'Incorrect password!',
+        //     ]);
+        // }
     }  
 
     
