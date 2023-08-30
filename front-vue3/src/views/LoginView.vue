@@ -23,7 +23,7 @@
 
             <el-row justify="end">
                 <el-form-item>
-                    <el-button size="large">Log in</el-button>
+                    <el-button size="large" @click="login">Log in</el-button>
                 </el-form-item>
             </el-row>
         </el-form>
@@ -39,10 +39,17 @@ export default {
                 username: '',
                 password: ''
             },
-            rules: {
-
-            }
         }
+    },
+    methods: {
+        login() {
+            const store = useStore();
+            store.dispatch('login');
+        },
+        logout() {
+            const store = useStore();
+            store.dispatch('logout');
+        },
     }
 }
 
