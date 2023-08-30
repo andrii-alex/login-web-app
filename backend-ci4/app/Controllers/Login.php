@@ -4,46 +4,47 @@ namespace App\Controllers;
 
 class Login extends BaseController
 {
-    public function index(){
-        return view('errors/html/production');
-    }
+    public function postLogin(){
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
 
-    public function login(){
-        // $username = $this->request->getPost('username');
+        // $authorizationHeader = $this->request->getServer('HTTP_AUTHORIZATION');
+        // $token = trim(str_replace('Bearer', '', $authorizationHeader));
 
-        var_dump($_POST);
-        // $username = $_POST['username'] ?? "fff";
-        // $password = $this->request->getPost('password');
+        // return $this->response->setStatusCode(401)->setJson([
+        //     'token' => $token,
+        //     'username'  => $username,
+        //     'error'     => 'No account with this username!'
+        // ]);
 
-        // $userModel = model("UserModel");
+        $userModel = model("UserModel");
 
-        // $user = $userModel->where("username", $username)->first();
+        $user = $userModel->where("username", $username)->first();
 
-        // if(is_null($user))
-        //     return $this->response->setStatusCode(401)->setJson([
-        //         'username'  => $username,
-        //         'error'     => 'No account with this username!'
-        //     ]);
+        if(is_null($user))
+            return $this->response->setStatusCode(401)->setJson([
+                'username'  => $username,
+                'error'     => 'No account with this username!'
+            ]);
 
-        // if (password_verify($password, $user->password)) {
-        //     $token = bin2hex(random_bytes(32));
+        if (password_verify($password, $user->password)) {
+            $token = bin2hex(random_bytes(32));
 
-        //     $this->session->set('username', $username);
-        //     $this->session->set('token', $token);
+            $this->session->set('username', $username);
+            $this->session->set('token', $token);
 
-        //     $user->token = $token;
-        //     $userModel->save($user);
+            $user->token = $token;
+            $userModel->save($user);
     
-        //     return $this->response->setStatusCode(200)->setJson([
-        //         'username'  => $session->get('username'),
-        //         'token'     => $session->get('token', $token)
-        //     ]);
-        // } else {
-        //     return $this->response->setStatusCode(401)->setJson([
-        //         'error' => 'Incorrect password!',
-        //     ]);
-        // }
+            return $this->response->setStatusCode(200)->setJson([
+                'username'      => $this->session->get('username'),
+                'token'             => $this->session->get('token', $token)
+            ]);
+        } else {
+            return $this->response->setStatusCode(401)->setJson([
+                'error' => 'Incorrect password!',
+            ]);
+        }
     }  
-
     
 }
