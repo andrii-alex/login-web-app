@@ -27,19 +27,14 @@ class Login extends BaseController
             $user->token = $token;
             $userModel->save($user);
     
-            return $this->response->setJson([
+            return $this->response->setStatusCode(200)->setJson([
                 'username' => $session->get('username'),
                 'token' => $session->get('token', $token)
             ]);
         } else {
             return $this->response->setStatusCode(401)->setJson([
                 'error' => 'Incorrect password!',
-                // 'user-pass' => $user->password
             ]);
         }
-
-        return $this->response->setJson([
-
-        ]);
     }   
 }

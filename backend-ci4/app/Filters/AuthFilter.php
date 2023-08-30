@@ -10,9 +10,8 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Check if user is logged in (you need to implement this logic)
         if (!isLoggedIn()) {
-            return redirect()->to('/login'); // Redirect to login page or return unauthorized response
+            return redirect()->to(''); // Redirect to login page or return unauthorized response
         }
     }
 
@@ -27,7 +26,7 @@ function isLoggedIn()
     $session = \Config\Services::session();
     $userModel = new \App\Models\UserModel();
 
-    $username   = $session->get('username');
+    $username       = $session->get('username');
     $token          = $session->get('token');
 
     if (empty($username) || empty($token)) {
