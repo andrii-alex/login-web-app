@@ -1,7 +1,7 @@
 <template>
   <div>
     <br />
-    <el-form :model="loginData" label-position="top">
+    <el-form ref="loginForm" :model="loginData" label-position="top">
       <el-form-item
         label="Username"
         label-width="100px"
@@ -41,7 +41,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { ElMessage, extractTimeFormat } from 'element-plus'
+import { useStore } from 'vuex'
 
 export default {
   data() {
@@ -53,11 +54,25 @@ export default {
     }
   },
   methods: {
-    login() {
-      var response = axios.post('')
+    async login() {
+      this.$refs['loginForm'].validate(async (valid) => {
+        if (!valid) {
+          ElMessage({
+            message: 'Check form for errors',
+            type: 'error'
+          })
+        } else {
+          var response = await this.post('/login', {
+            username: this.loginData,
+            password: this.loginData.password
+          })
 
-      const store = useStore()
-      store.dispatch('login')
+          console.log('Response:', response)
+          // console.log(this.response)
+          // const store = useStore()
+          // store.dispatch('login')
+        }
+      })
     },
     logout() {
       const store = useStore()

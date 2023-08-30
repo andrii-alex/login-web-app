@@ -4,6 +4,10 @@ namespace App\Controllers;
 
 class Login extends BaseController
 {
+    public function index(){
+        return view('errors/html/production');
+    }
+
     public function login(){
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -20,21 +24,22 @@ class Login extends BaseController
         if (password_verify($password, $user->password)) {
             $token = bin2hex(random_bytes(32));
 
-            $session = \Config\Services::session();
-            $session->set('username', $username);
-            $session->set('token', $token);
+            $this->session->set('username', $username);
+            $this->session->set('token', $token);
 
             $user->token = $token;
             $userModel->save($user);
     
             return $this->response->setStatusCode(200)->setJson([
-                'username' => $session->get('username'),
-                'token' => $session->get('token', $token)
+                'username'  => $session->get('username'),
+                'token'     => $session->get('token', $token)
             ]);
         } else {
             return $this->response->setStatusCode(401)->setJson([
                 'error' => 'Incorrect password!',
             ]);
         }
-    }   
+    }  
+
+    
 }

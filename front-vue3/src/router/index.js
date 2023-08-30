@@ -18,15 +18,15 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import("../views/LoginView.vue")
+      component: () => import('../views/LoginView.vue')
     }
   ]
 })
 
-router.beforeEach(async (to, from) => {
-  if (!store.getters.isAuthenticated && to.name !== 'login') {
-    return { name: 'login' }
-  }
-})
+// router.beforeEach(async (to, from) => {
+//   if (!store.getters.isAuthenticated && to.name !== 'login') {
+//     return { name: 'login' }
+//   }
+// })
 
 export default router

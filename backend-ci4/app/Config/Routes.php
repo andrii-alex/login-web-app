@@ -6,8 +6,7 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+$routes->get('/login', 'Login::index');
 $routes->post('/login', 'Login::login');
 
-$routes->group('api', ['namespace' => 'App\Controllers', 'filter' => 'auth'], function ($routes) {
-    $routes->get('/', 'Home::index');
-});
+$routes->get('/', 'Home::index');

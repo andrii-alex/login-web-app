@@ -11,7 +11,7 @@ class AuthFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!isLoggedIn()) {
-            return redirect()->to(''); // Redirect to login page or return unauthorized response
+            return redirect()->to("https://roof-construct.andrii.ro/api/login"); // Redirect to login page or return unauthorized response
         }
     }
 
